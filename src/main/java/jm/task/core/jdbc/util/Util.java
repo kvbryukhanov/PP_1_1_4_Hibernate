@@ -1,5 +1,10 @@
 package jm.task.core.jdbc.util;
 
+import jm.task.core.jdbc.model.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -36,6 +41,11 @@ public class Util {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public static Session getConfiguration() {
+        Configuration configuration = new Configuration().addAnnotatedClass(User.class);
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        return sessionFactory.getCurrentSession();
     }
 }
