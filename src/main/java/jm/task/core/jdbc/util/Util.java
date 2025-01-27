@@ -27,8 +27,7 @@ public class Util {
         try (InputStream inputStream = Util.class.getClassLoader().
                 getResourceAsStream("application.properties")) {
             prop.load(inputStream);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -45,7 +44,8 @@ public class Util {
 
     public static Session getConfiguration() {
         Configuration configuration = new Configuration().addAnnotatedClass(User.class);
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        return sessionFactory.getCurrentSession();
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
+            return sessionFactory.getCurrentSession();
+        }
     }
 }
